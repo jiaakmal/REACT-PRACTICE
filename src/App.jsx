@@ -5,7 +5,7 @@ import TabButton from "./components/TabButton.jsx";
 import { useState } from "react";
 
 function App() {
-  const [selectedTopic, setSelectedTopic] = useState('components'); // Initialize tab content with a placeholder message
+  const [selectedTopic, setSelectedTopic] = useState(); // Initialize tab content with a placeholder message
   // Add event listener for tab button click event and log the selected button to the console
 
   function handleSelect(selectedButton) {
@@ -17,19 +17,27 @@ function App() {
       <Header />
       <main>
         <h2>Time to get started!</h2>
-      </main>
-      <section id="core-concepts">
+        <section id="core-concepts">
         <h2>Core Concepts</h2>
         <ul>
-          <CoreConcept
+          {
+            CORE_CONCEPTS.map((concept, index) => (
+              <li key={index}>
+                <CoreConcept {...concept} />
+              </li>
+            ))
+          }
+          
+          
+          /* <CoreConcept
             title={CORE_CONCEPTS[0].title}
             description={CORE_CONCEPTS[0].description}
             image={CORE_CONCEPTS[0].image}
           />
           <CoreConcept {...CORE_CONCEPTS[1]} />
-          <CoreConcept {...CORE_CONCEPTS[2]} />
+
           <CoreConcept {...CORE_CONCEPTS[3]} />
-        </ul>
+        </ul> */}
       </section>
       <section id="examples">
         <h2>Examples</h2>
@@ -43,17 +51,19 @@ function App() {
             <TabButton onSelect={() => handleSelect("state")}>State</TabButton>
           </li>
         </menu>
-        <div id="tab-content">
-          <h3>{ EXAMPLES[selectedTopic].title}</h3>
+        
+          {!selectedTopic ? <p>please select a topic</p> :<div id="tab-content"> <h3>{ EXAMPLES[selectedTopic].title}</h3>
           <p> { EXAMPLES[selectedTopic].description}</p>
           <pre>
             <code>
               {EXAMPLES[selectedTopic].code}
             </code>
-          </pre>
+          </pre>  </div> }
+          
 
-        </div>
+      
       </section>
+      </main>
     </div>
   );
 }
